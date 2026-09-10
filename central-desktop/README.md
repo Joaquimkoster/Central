@@ -1,16 +1,34 @@
-# React + Vite
+# Central Desktop
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+The React and Vite frontend and Tauri 2 desktop application for Central.
+The current implementation provides sidebar navigation and placeholder pages;
+individual module features and data persistence are not implemented yet.
 
-Currently, two official plugins are available:
+## Development
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+From this directory, install dependencies and start the browser version:
 
-## React Compiler
+```bash
+npm ci
+npm run dev
+```
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+To run the desktop application, install Rust, Cargo, and the Tauri system
+dependencies for your platform, then run:
 
-## Expanding the ESLint configuration
+```bash
+npx tauri dev
+```
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Tauri starts Vite automatically and expects port `5173` to be available.
+
+## Commands
+
+| Command | Purpose |
+| --- | --- |
+| `npm run build` | Build the frontend into `dist/`. |
+| `npm run preview` | Preview the frontend build locally. |
+| `npm run lint` | Run ESLint. |
+| `npx tauri build` | Build and package the desktop application. |
+
+See the [main README](../README.md) for requirements, project structure, and current status.
