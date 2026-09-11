@@ -1,0 +1,35 @@
+import { NativeTabs } from 'expo-router/unstable-native-tabs';
+
+import { Colors } from '@/constants/theme';
+
+export default function AppTabs() {
+  const colors = Colors.dark;
+
+  return (
+    <NativeTabs
+      backgroundColor={colors.background}
+      indicatorColor={colors.backgroundElement}
+      labelStyle={{
+        selected: { color: colors.text },
+      }}
+    >
+      <NativeTabs.Trigger name="index">
+        <NativeTabs.Trigger.Label>Início</NativeTabs.Trigger.Label>
+
+        <NativeTabs.Trigger.Icon
+          src={require('@/assets/images/tabIcons/home.png')}
+          renderingMode="template"
+        />
+      </NativeTabs.Trigger>
+
+      <NativeTabs.Trigger name="notes">
+        <NativeTabs.Trigger.Label>Notas</NativeTabs.Trigger.Label>
+
+        <NativeTabs.Trigger.Icon
+          src={require('@/assets/images/tabIcons/explore.png')}
+          renderingMode="template"
+        />
+      </NativeTabs.Trigger>
+    </NativeTabs>
+  );
+}

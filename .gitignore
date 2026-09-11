@@ -1,0 +1,27 @@
+# Dependências e builds
+node_modules/
+dist/
+dist-ssr/
+target/
+.expo/
+web-build/
+*.tsbuildinfo
+
+# Configurações e credenciais locais
+.env
+.env.*
+!.env.example
+!.env.sample
+*.pem
+*.key
+*.p12
+*.p8
+*.jks
+*.mobileprovision
+
+# Logs e arquivos locais
+*.log
+.DS_Store
+.idea/
+/.agents/
+/.codex/

@@ -1,53 +1,34 @@
 import { useState } from "react";
+import Sidebar from "./components/Sidebar";
+import Home from "./pages/Home";
+import PlaceholderPage from "./pages/PlaceholderPage";
+import Notes from "./pages/Notes";
 import "./App.css";
-
-const menuItems = [
-  "Início",
-  "Notas",
-  "Tarefas",
-  "Lembretes",
-  "Calendário",
-  "Objetivos",
-  "Treinos",
-  "Estudos",
-  "Tempo de tela",
-  "Controle de vícios",
-  "Diário",
-  "Sono",
-  "Controle do PC",
-  "Darly",
-];
 
 function App() {
   const [activePage, setActivePage] = useState("Início");
 
+  const renderPage = () => {
+    if (activePage === "Início") {
+      return <Home />;
+    }
+
+    if (activePage === "Notas") {
+      return <Notes />;
+    }
+
+    return <PlaceholderPage title={activePage} />;
+  };
+
   return (
     <div className="app">
-      <aside className="sidebar">
-        <div className="logo">Central</div>
+      <Sidebar
+        activePage={activePage}
+        setActivePage={setActivePage}
+      />
 
-        <nav className="menu">
-          {menuItems.map((item) => (
-            <button
-              key={item}
-              className={activePage === item ? "menu-item active" : "menu-item"}
-              onClick={() => setActivePage(item)}
-            >
-              {item}
-            </button>
-          ))}
-        </nav>
-      </aside>
-
-      <main className="content">
-        <header className="topbar">
-          <h1>{activePage}</h1>
-        </header>
-
-        <section className="page">
-          <h2>{activePage}</h2>
-          <p>Área da Central: {activePage}</p>
-        </section>
+      <main className="main-content">
+        {renderPage()}
       </main>
     </div>
   );

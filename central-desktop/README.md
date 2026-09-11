@@ -1,34 +1,23 @@
 # Central Desktop
 
-The React and Vite frontend and Tauri 2 desktop application for Central.
-The current implementation provides sidebar navigation and placeholder pages;
-individual module features and data persistence are not implemented yet.
+Aplicativo desktop da Central com React 19, Vite 8 e Tauri 2. Inclui painel inicial, navegação lateral e operações de listagem, criação e exclusão de notas por API. Os demais módulos ainda estão em desenvolvimento.
 
-## Development
-
-From this directory, install dependencies and start the browser version:
+## Executar
 
 ```bash
 npm ci
 npm run dev
 ```
 
-To run the desktop application, install Rust, Cargo, and the Tauri system
-dependencies for your platform, then run:
+Para abrir a janela nativa, instale Rust, Cargo e as dependências de sistema do Tauri e execute `npx tauri dev`. A porta `5173` deve estar disponível.
 
-```bash
-npx tauri dev
-```
+## Comandos
 
-Tauri starts Vite automatically and expects port `5173` to be available.
-
-## Commands
-
-| Command | Purpose |
+| Comando | Finalidade |
 | --- | --- |
-| `npm run build` | Build the frontend into `dist/`. |
-| `npm run preview` | Preview the frontend build locally. |
-| `npm run lint` | Run ESLint. |
-| `npx tauri build` | Build and package the desktop application. |
+| `npm run lint` | Verificar o código com ESLint |
+| `npm run build` | Gerar o frontend em `dist/` |
+| `npm run preview` | Visualizar o frontend compilado |
+| `npx tauri build` | Compilar e empacotar o aplicativo desktop |
 
-See the [main README](../README.md) for requirements, project structure, and current status.
+A tela de notas depende de um servidor externo, configurado em `src/pages/Notes.jsx`. Consulte o [README principal](../README.md) para instalação, requisitos e contrato da API compartilhada com o mobile.
