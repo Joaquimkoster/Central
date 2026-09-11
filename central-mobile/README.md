@@ -1,24 +1,24 @@
 # Central Mobile
 
-Aplicativo mobile da Central com Expo SDK 57, React Native 0.86, React 19, Expo Router e TypeScript. Inclui tela inicial e operações de listagem, criação e exclusão de notas por API, com abas nativas Início e Notas. Os demais módulos estão em desenvolvimento; a navegação web ainda contém elementos do template Expo.
+The Central mobile application uses Expo SDK 57, React Native 0.86, React 19, Expo Router, and TypeScript. It includes a home screen and API operations to list, create, and delete notes, with native Home (Início) and Notes (Notas) tabs. Other modules are in development; web navigation still contains elements from the Expo template.
 
-## Executar
+## Run
 
 ```bash
 npm ci
 npm start
 ```
 
-| Comando | Finalidade |
+| Command | Purpose |
 | --- | --- |
-| `npm run android` | Iniciar o Expo e abrir no Android |
-| `npm run ios` | Iniciar o Expo e abrir no simulador iOS (macOS) |
-| `npm run web` | Executar no navegador |
-| `npx tsc --noEmit` | Verificar tipos |
-| `npx expo export --platform web` | Exportar a versão web para `dist/` |
+| `npm run android` | Start Expo and open on Android |
+| `npm run ios` | Start Expo and open in the iOS simulator (macOS) |
+| `npm run web` | Run in the browser |
+| `npx tsc --noEmit` | Check types |
+| `npx expo export --platform web` | Export the web version to `dist/` |
 
-O script `npm run lint` está disponível, mas a configuração ESLint ainda precisa ser adicionada. O script `reset-project` é um utilitário do template que move o código inicial; não é necessário para executar a Central.
+The `npm run lint` script is available, but ESLint configuration still needs to be added. The `reset-project` script is a template utility that moves the starter code; it is not required to run Central.
 
-As rotas ficam em `src/app/`. A API de notas é configurada pela constante `API_URL` em `src/app/notes.tsx`. O backend precisa estar acessível no dispositivo utilizado e não está incluído neste projeto. Não há armazenamento offline ou atualização em tempo real.
+Routes are located in `src/app/`. The notes API is configured through the `API_URL` constant in `src/app/notes.tsx`. The backend must be reachable from the device being used and is not included in this project. Offline storage and real-time updates are not implemented.
 
-Consulte o [README principal](../README.md) para requisitos e contrato da API compartilhada com o desktop.
+See the [main README](../README.md) for requirements and the API contract shared with the desktop application.
