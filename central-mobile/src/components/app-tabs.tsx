@@ -1,23 +1,19 @@
-import { NativeTabs } from 'expo-router/unstable-native-tabs';
-
-import { Colors } from '@/constants/theme';
+import { NativeTabs } from "expo-router/unstable-native-tabs";
 
 export default function AppTabs() {
-  const colors = Colors.dark;
-
   return (
     <NativeTabs
-      backgroundColor={colors.background}
-      indicatorColor={colors.backgroundElement}
+      backgroundColor="#03070c"
+      indicatorColor="#203b60"
       labelStyle={{
-        selected: { color: colors.text },
+        selected: { color: "#ffffff" },
       }}
     >
       <NativeTabs.Trigger name="index">
         <NativeTabs.Trigger.Label>Início</NativeTabs.Trigger.Label>
 
         <NativeTabs.Trigger.Icon
-          src={require('@/assets/images/tabIcons/home.png')}
+          src={require("@/assets/icons/home.png")}
           renderingMode="template"
         />
       </NativeTabs.Trigger>
@@ -26,7 +22,34 @@ export default function AppTabs() {
         <NativeTabs.Trigger.Label>Notas</NativeTabs.Trigger.Label>
 
         <NativeTabs.Trigger.Icon
-          src={require('@/assets/images/tabIcons/explore.png')}
+          src={require("@/assets/icons/notes.png")}
+          renderingMode="template"
+        />
+      </NativeTabs.Trigger>
+
+      <NativeTabs.Trigger name="tasks">
+        <NativeTabs.Trigger.Label>Tarefas</NativeTabs.Trigger.Label>
+
+        <NativeTabs.Trigger.Icon
+          src={require("@/assets/icons/tasks.png")}
+          renderingMode="template"
+        />
+      </NativeTabs.Trigger>
+
+      <NativeTabs.Trigger name="reminders">
+        <NativeTabs.Trigger.Label>Lembretes</NativeTabs.Trigger.Label>
+
+        <NativeTabs.Trigger.Icon
+          src={require("@/assets/icons/bell.png")}
+          renderingMode="template"
+        />
+      </NativeTabs.Trigger>
+
+      <NativeTabs.Trigger name="calendar">
+        <NativeTabs.Trigger.Label>Calendário</NativeTabs.Trigger.Label>
+
+        <NativeTabs.Trigger.Icon
+          src={require("@/assets/icons/calendar.png")}
           renderingMode="template"
         />
       </NativeTabs.Trigger>

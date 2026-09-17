@@ -1,13 +1,13 @@
+import {
+  Screen,
+  Composer,
+  PrimaryButton,
+  Icon,
+  ui,
+} from "@/components/central-ui";
 import { useEffect, useState } from "react";
 
-import {
-  View,
-  Text,
-  TextInput,
-  Pressable,
-  StyleSheet,
-  ScrollView,
-} from "react-native";
+import { View, Text, TextInput, Pressable, StyleSheet } from "react-native";
 
 const API_URL = "http://100.71.224.93:8080/api/notes";
 
@@ -19,14 +19,16 @@ type Note = {
 
 export default function NotesScreen() {
   const [notes, setNotes] = useState<Note[]>([]);
+  const [editorOpen, setEditorOpen] = useState(false);
+  const [error, setError] = useState("");
+  const [search, setSearch] = useState("");
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [loading, setLoading] = useState(true);
 
-
-  
   async function loadNotes() {
     try {
+      setError("");
       setLoading(true);
 
       const response = await fetch(API_URL);
@@ -39,13 +41,14 @@ export default function NotesScreen() {
 
       setNotes(data);
     } catch (error) {
+      setError(
+        "Não foi possível conectar. Verifique sua conexão e tente novamente.",
+      );
       console.log("Erro ao carregar notas:", error);
     } finally {
       setLoading(false);
     }
   }
-
-
 
   async function addNote() {
     if (!title.trim() && !content.trim()) {
@@ -53,6 +56,7 @@ export default function NotesScreen() {
     }
 
     try {
+      setError("");
       const response = await fetch(API_URL, {
         method: "POST",
 
@@ -74,17 +78,20 @@ export default function NotesScreen() {
 
       setNotes((current) => [savedNote, ...current]);
 
+      setEditorOpen(false);
       setTitle("");
       setContent("");
     } catch (error) {
+      setError(
+        "Não foi possível conectar. Verifique sua conexão e tente novamente.",
+      );
       console.log("Erro ao salvar nota:", error);
     }
   }
 
-
-
   async function deleteNote(id: number) {
     try {
+      setError("");
       const response = await fetch(`${API_URL}/${id}`, {
         method: "DELETE",
       });
@@ -93,134 +100,128 @@ export default function NotesScreen() {
         throw new Error(`Erro HTTP: ${response.status}`);
       }
 
-      setNotes((current) =>
-        current.filter((note) => note.id !== id)
-      );
+      setNotes((current) => current.filter((note) => note.id !== id));
     } catch (error) {
+      setError(
+        "Não foi possível conectar. Verifique sua conexão e tente novamente.",
+      );
       console.log("Erro ao excluir nota:", error);
     }
   }
-
-
 
   useEffect(() => {
     loadNotes();
   }, []);
 
+  const visibleItems = notes.filter((note) =>
+    `${note.title} ${note.content}`
+      .toLocaleLowerCase()
+      .includes(search.toLocaleLowerCase()),
+  );
+
   return (
-    <ScrollView
-      style={styles.container}
-      contentContainerStyle={styles.contentContainer}
+    <Screen
+      title="Notas"
+      subtitle="Suas ideias, em um só lugar"
+      onRefresh={loadNotes}
+      action={
+        <PrimaryButton title="Nova nota" onPress={() => setEditorOpen(true)} />
+      }
     >
-      <Text style={styles.title}>Notas</Text>
-
-      <Text style={styles.subtitle}>
-        Suas anotações sincronizadas com a Central.
+      <TextInput
+        accessibilityLabel="Buscar notas"
+        placeholder="Buscar notas..."
+        placeholderTextColor="#7e8da3"
+        value={search}
+        onChangeText={setSearch}
+        style={ui.search}
+      />
+      <Text style={{ color: "#8ea4c2", fontSize: 12 }}>
+        Todas as notas · {visibleItems.length}
       </Text>
-
-      <View style={styles.editor}>
-        <TextInput
-          style={styles.input}
-          placeholder="Título"
-          placeholderTextColor="#69717e"
-          value={title}
-          onChangeText={setTitle}
-        />
-
-        <TextInput
-          style={[styles.input, styles.textarea]}
-          placeholder="Escreva sua nota..."
-          placeholderTextColor="#69717e"
-          value={content}
-          onChangeText={setContent}
-          multiline
-        />
-
-        <Pressable
-          style={styles.saveButton}
-          onPress={addNote}
-        >
-          <Text style={styles.saveButtonText}>
-            Salvar nota
+      {!!error && (
+        <Text accessibilityRole="alert" style={ui.error}>
+          {error}
+        </Text>
+      )}
+      <Composer
+        title="Nova nota"
+        visible={editorOpen}
+        onClose={() => setEditorOpen(false)}
+      >
+        {!!error && (
+          <Text accessibilityRole="alert" style={ui.error}>
+            {error}
           </Text>
-        </Pressable>
-      </View>
+        )}
+        <View style={styles.editor}>
+          <TextInput
+            accessibilityLabel="Título"
+            style={styles.input}
+            placeholder="Título"
+            placeholderTextColor="#69717e"
+            value={title}
+            onChangeText={setTitle}
+          />
 
+          <TextInput
+            accessibilityLabel="Escreva sua nota..."
+            style={[styles.input, styles.textarea]}
+            placeholder="Escreva sua nota..."
+            placeholderTextColor="#69717e"
+            value={content}
+            onChangeText={setContent}
+            multiline
+          />
+
+          <Pressable style={styles.saveButton} onPress={addNote}>
+            <Text style={styles.saveButtonText}>Salvar nota</Text>
+          </Pressable>
+        </View>
+      </Composer>
       <View style={styles.notesList}>
         {loading ? (
-          <Text style={styles.emptyText}>
-            Carregando notas...
-          </Text>
-        ) : notes.length === 0 ? (
-          <Text style={styles.emptyText}>
-            Nenhuma nota criada ainda.
-          </Text>
+          <Text style={styles.emptyText}>Carregando notas...</Text>
+        ) : visibleItems.length === 0 ? (
+          <Text style={styles.emptyText}>Nenhuma nota encontrada.</Text>
         ) : (
-          notes.map((note) => (
-            <View
-              key={note.id}
-              style={styles.noteCard}
-            >
-              <Text style={styles.noteTitle}>
-                {note.title}
-              </Text>
-
-              <Text style={styles.noteContent}>
-                {note.content}
-              </Text>
-
+          visibleItems.map((note) => (
+            <View key={note.id} style={styles.noteCard}>
+              <Icon name="notes" size={20} />
+              <View style={{ flex: 1 }}>
+                <Text style={styles.noteTitle}>{note.title}</Text>
+                <Text style={styles.noteContent}>{note.content}</Text>
+              </View>
               <Pressable
+                accessibilityRole="button"
+                accessibilityLabel={`Excluir ${note.title}`}
+                hitSlop={8}
                 onPress={() => deleteNote(note.id)}
               >
-                <Text style={styles.deleteText}>
-                  Excluir
-                </Text>
+                <Text style={styles.deleteText}>Excluir</Text>
               </Pressable>
             </View>
           ))
         )}
       </View>
-    </ScrollView>
+    </Screen>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#0b0d12",
-  },
-
-  contentContainer: {
-    padding: 20,
-    paddingBottom: 50,
-  },
-
-  title: {
-    color: "#ffffff",
-    fontSize: 30,
-    fontWeight: "700",
-    marginTop: 35,
-  },
-
-  subtitle: {
-    color: "#858d9b",
-    marginTop: 6,
-    marginBottom: 20,
-  },
-
   editor: {
-    backgroundColor: "#131720",
+    backgroundColor: "#0b1420",
     borderWidth: 1,
-    borderColor: "#252b36",
-    borderRadius: 14,
+    borderColor: "#142030",
+    borderRadius: 10,
     padding: 16,
     gap: 12,
   },
 
   input: {
-    backgroundColor: "#0e1117",
+    backgroundColor: "#0e1928",
     borderWidth: 1,
-    borderColor: "#2a303b",
+    borderColor: "#23334a",
     color: "#ffffff",
     borderRadius: 9,
     padding: 12,
@@ -232,43 +233,51 @@ const styles = StyleSheet.create({
   },
 
   saveButton: {
-    backgroundColor: "#ffffff",
-    padding: 12,
+    backgroundColor: "#315b9d",
+    padding: 14,
+    minHeight: 48,
     borderRadius: 9,
     alignItems: "center",
   },
 
   saveButtonText: {
-    color: "#111111",
+    color: "#ffffff",
     fontWeight: "700",
   },
 
   notesList: {
-    marginTop: 20,
-    gap: 12,
+    marginTop: 0,
+    gap: 8,
   },
 
   noteCard: {
-    backgroundColor: "#131720",
+    flexDirection: "row",
+    alignItems: "flex-start",
+    gap: 12,
+    backgroundColor: "#0b1420",
     borderWidth: 1,
-    borderColor: "#252b36",
-    borderRadius: 14,
+    borderColor: "#142030",
+    borderRadius: 10,
     padding: 16,
   },
 
   noteTitle: {
     color: "#ffffff",
-    fontSize: 17,
+    fontSize: 15,
     fontWeight: "700",
   },
 
   noteContent: {
+    fontSize: 12,
+    lineHeight: 19,
     color: "#a1a8b4",
     marginTop: 8,
-    marginBottom: 12,
+    marginBottom: 0,
   },
 
   deleteText: {
+    fontSize: 11,
+    paddingVertical: 4,
     color: "#d87878",
   },
 
