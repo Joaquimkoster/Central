@@ -110,7 +110,11 @@ export default function NotesScreen() {
   }
 
   useEffect(() => {
-    loadNotes();
+    const timer = setTimeout(() => {
+      void loadNotes();
+    }, 0);
+
+    return () => clearTimeout(timer);
   }, []);
 
   const visibleItems = notes.filter((note) =>

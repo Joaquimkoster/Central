@@ -114,7 +114,11 @@ export default function CalendarScreen() {
   }
 
   useEffect(() => {
-    loadEvents();
+    const timer = setTimeout(() => {
+      void loadEvents();
+    }, 0);
+
+    return () => clearTimeout(timer);
   }, []);
 
   /*

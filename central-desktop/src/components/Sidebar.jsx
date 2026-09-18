@@ -22,6 +22,8 @@ const icons = {
   Tarefas: "tasks",
   Lembretes: "bell",
   Calendário: "calendar",
+  Objetivos: "goal",
+  Treinos: "workout",
   Estudos: "book",
   Diário: "notes",
   Sono: "moon",

@@ -133,7 +133,11 @@ export default function TasksScreen() {
   }
 
   useEffect(() => {
-    loadTasks();
+    const timer = setTimeout(() => {
+      void loadTasks();
+    }, 0);
+
+    return () => clearTimeout(timer);
   }, []);
 
   const visibleItems = tasks.filter(

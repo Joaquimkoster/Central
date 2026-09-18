@@ -30,8 +30,21 @@ const icons = {
   plus: require("../../assets/icons/plus.png"),
   search: require("../../assets/icons/search.png"),
 };
-export type IconName = keyof typeof icons;
+export type IconName = keyof typeof icons | "workout";
 export function Icon({ name, size = 21 }: { name: IconName; size?: number }) {
+  if (name === "workout") {
+    const color = "#b8c5d8";
+    return (
+      <View style={{ width: size, height: size, alignItems: "center", justifyContent: "center" }}>
+        <View style={{ width: size * 0.66, height: 1.6, backgroundColor: color }} />
+        <View style={{ position: "absolute", left: size * 0.16, width: 2, height: size * 0.48, borderRadius: 2, backgroundColor: color }} />
+        <View style={{ position: "absolute", left: size * 0.28, width: 2, height: size * 0.66, borderRadius: 2, backgroundColor: color }} />
+        <View style={{ position: "absolute", right: size * 0.16, width: 2, height: size * 0.48, borderRadius: 2, backgroundColor: color }} />
+        <View style={{ position: "absolute", right: size * 0.28, width: 2, height: size * 0.66, borderRadius: 2, backgroundColor: color }} />
+      </View>
+    );
+  }
+
   return (
     <Image
       source={icons[name]}

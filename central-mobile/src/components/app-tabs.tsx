@@ -53,6 +53,26 @@ export default function AppTabs() {
           renderingMode="template"
         />
       </NativeTabs.Trigger>
+
+      <NativeTabs.Trigger name="goals">
+        <NativeTabs.Trigger.Label>
+          Objetivos
+        </NativeTabs.Trigger.Label>
+
+        <NativeTabs.Trigger.Icon
+          src={require("@/assets/icons/tasks.png")}
+          renderingMode="template"
+        />
+      </NativeTabs.Trigger>
+
+      <NativeTabs.Trigger name="workouts">
+        <NativeTabs.Trigger.Label>Treinos</NativeTabs.Trigger.Label>
+
+        <NativeTabs.Trigger.Icon
+          sf="dumbbell"
+          md="fitness_center"
+        />
+      </NativeTabs.Trigger>
     </NativeTabs>
   );
 }

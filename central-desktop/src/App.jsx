@@ -6,6 +6,8 @@ import Notes from "./pages/Notes";
 import Tasks from "./pages/Tasks";
 import Reminders from "./pages/Reminders";
 import Calendar from "./pages/Calendar";
+import Goals from "./pages/Goals";
+import Workouts from "./pages/Workouts";
 import "./App.css";
 
 function App() {
@@ -33,6 +35,14 @@ function App() {
 
     if (activePage === "Calendário") {
       return <Calendar onRefresh={refreshPage} />;
+    }
+
+    if (activePage === "Objetivos") {
+      return <Goals onRefresh={refreshPage} />;
+    }
+
+    if (activePage === "Treinos") {
+      return <Workouts onRefresh={refreshPage} />;
     }
 
     return <PlaceholderPage title={activePage} />;

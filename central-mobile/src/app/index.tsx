@@ -12,10 +12,10 @@ const pages: { title: string; route: Href; icon: IconName }[] = [
   { title: "Tarefas", route: "/tasks", icon: "tasks" },
   { title: "Lembretes", route: "/reminders", icon: "bell" },
   { title: "Calendário", route: "/calendar", icon: "calendar" },
+  { title: "Objetivos", route: "/goals", icon: "goal" },
+  { title: "Treinos", route: "/workouts" as Href, icon: "workout" },
 ];
 const planned = [
-  "Objetivos",
-  "Treinos",
   "Estudos",
   "Tempo de tela",
   "Controle de vícios",

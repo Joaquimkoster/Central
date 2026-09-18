@@ -162,7 +162,11 @@ export default function RemindersScreen() {
   }
 
   useEffect(() => {
-    loadReminders();
+    const timer = setTimeout(() => {
+      void loadReminders();
+    }, 0);
+
+    return () => clearTimeout(timer);
   }, []);
 
   const visibleItems = reminders.filter((reminder) => {
